@@ -1,0 +1,12 @@
+server:
+  port: 8200
+
+jwt:
+  secret: Ny0pm2CWIAST07ElsTAVZgCqJKJd2bE9lpKyewuOhyyKoBApt1Ny0pm2CWIAST07ElsTAVZgCqJKJd2bE9lpKyewuOhyyKoBApt1
+  token_prefix: Bearer
+  login_url: /api/user
+
+filter:
+  exclude:
+#    Todo: signup
+    path: /api/auth/login
