@@ -1,2 +1,11 @@
+server:
+  port: 8081
+
 jwt:
   secret: a692b00d-c4cd-481c-a0b0-732efc4eea28
+  token_prefix: Bearer
+  login_url: /api/user
+
+filter:
+  exclude:
+    path: /api/auth/login
