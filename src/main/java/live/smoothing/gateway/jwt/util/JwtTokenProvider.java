@@ -26,6 +26,7 @@ public class JwtTokenProvider {
         String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
         JsonNode id = objectMapper.readTree(payload).findValue("id");
 
+        // TODO : exception 처리
         if (Objects.isNull(id)) {
             throw new RuntimeException();
         }
