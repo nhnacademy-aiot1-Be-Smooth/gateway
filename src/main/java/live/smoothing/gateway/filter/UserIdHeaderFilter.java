@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Slf4j
 @Component
 public class UserIdHeaderFilter implements GlobalFilter, Ordered {
@@ -21,12 +23,18 @@ public class UserIdHeaderFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
         log.info("UserIdHeaderFilter");
 
-        String userId = exchange.getRequest().getHeaders().getFirst("userId");
+        String userId = String.valueOf(exchange.getAttributes().getOrDefault("userId", null));
 
-        exchange.getAttributes().put("X-USER-ID", userId);
+        // TODO : exception 처리
+        if (Objects.isNull(userId)) {
+            throw new RuntimeException();
+        }
+
+        exchange.mutate().request(builder -> {
+            builder.header("X-USER-ID", userId);
+        });
 
         return chain.filter(exchange);
     }
