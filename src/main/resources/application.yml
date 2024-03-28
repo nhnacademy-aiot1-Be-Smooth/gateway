@@ -6,6 +6,8 @@ jwt:
 
 
 
-filter:
-  exclude:
-    path: /api/auth/login
+global:
+  filter:
+    exclude-path:
+      - POST:/api/auth/login
+      - POST:/api/user

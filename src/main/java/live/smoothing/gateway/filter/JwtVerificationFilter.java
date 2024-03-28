@@ -1,6 +1,7 @@
 package live.smoothing.gateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import live.smoothing.gateway.config.GlobalFilterProperties;
 import live.smoothing.gateway.jwt.util.JwtCode;
 import live.smoothing.gateway.jwt.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -18,14 +20,18 @@ import reactor.core.publisher.Mono;
 public class JwtVerificationFilter implements GlobalFilter, Ordered {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final GlobalFilterProperties properties;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+        ServerHttpRequest request = exchange.getRequest();
+        if (isExcludePath(request.getMethodValue(), request.getPath().value())) {
+            return chain.filter(exchange);
+        }
+
         String accessToken = String.valueOf(exchange.getAttributes().getOrDefault("accessToken", null));
         String refreshToken = String.valueOf(exchange.getAttributes().getOrDefault("refreshToken", null));
-
-        log.debug("[accessToken]: {}", accessToken);
-        log.debug("[refreshToken]: {}", refreshToken);
 
         // TODO: exception 처리
         try {
@@ -52,5 +58,11 @@ public class JwtVerificationFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return 2;
+    }
+
+    private boolean isExcludePath(String method, String path) {
+
+        String excludePath = method + ":" + path;
+        return properties.getExcludePath().contains(excludePath);
     }
 }
