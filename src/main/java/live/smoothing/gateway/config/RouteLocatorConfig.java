@@ -12,11 +12,11 @@ public class RouteLocatorConfig {
     public RouteLocator myRoute(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("user-service",
-                        p->p.path("/api/user").and()
+                        p->p.path("/api/user/**").and()
                         .uri("lb://USER-SERVICE")
                 )
                 .route("auth-service",
-                        p->p.path("/api/auth").and()
+                        p->p.path("/api/auth/**").and()
                         .uri("lb://SMOOTHING-AUTH"))
                 .build();
     }
