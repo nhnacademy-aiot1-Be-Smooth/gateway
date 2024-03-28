@@ -4,10 +4,21 @@ server:
 jwt:
   secret: a692b00d-c4cd-481c-a0b0-732efc4eea28
 
-
-
 global:
   filter:
     exclude-path:
       - POST:/api/auth/login
       - POST:/api/user
+
+spring:
+  application:
+    name: gateway
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:admin@localhost:8004/eureka
+  instance:
+    prefer-ip-address: true
