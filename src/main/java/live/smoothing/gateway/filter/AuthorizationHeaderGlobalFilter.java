@@ -2,6 +2,7 @@ package live.smoothing.gateway.filter;
 
 import live.smoothing.gateway.config.GlobalFilterProperties;
 import live.smoothing.gateway.exception.AuthorizationNotFoundException;
+import live.smoothing.gateway.exception.JwtTokenInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -33,14 +34,17 @@ public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String accessToken = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("smoothing-accessToken"))
-                .map(token -> token.substring(TOKEN_TYPE.length()+1))
-                .orElse(null);
+        String accessTokenHeaderValue = exchange.getRequest().getHeaders().getFirst("smoothing-accessToken");
 
-        if (Objects.isNull(accessToken)) {
+        if (Objects.isNull(accessTokenHeaderValue)) {
             throw new AuthorizationNotFoundException(HttpStatus.UNAUTHORIZED, "Access Token 헤더를 찾지 못했습니다.");
         }
 
+        if (accessTokenHeaderValue.length() <= TOKEN_TYPE.length()) {
+            throw new JwtTokenInvalidException(HttpStatus.UNAUTHORIZED, "Access Token 값이 유효하지 않습니다.");
+        }
+
+        String accessToken = accessTokenHeaderValue.substring(TOKEN_TYPE.length()+1);
         exchange.getAttributes().put("accessToken", accessToken);
         return chain.filter(exchange);
     }
