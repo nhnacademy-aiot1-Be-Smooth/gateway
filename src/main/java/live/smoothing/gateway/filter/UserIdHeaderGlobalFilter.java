@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -28,12 +26,7 @@ public class UserIdHeaderGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String userId = String.valueOf(exchange.getAttributes().getOrDefault("userId", null));
-
-        // TODO : exception 처리
-        if (Objects.isNull(userId)) {
-            throw new RuntimeException();
-        }
+        String userId = String.valueOf(exchange.getAttributes().get("userId"));
 
         exchange.mutate().request(builder -> {
             builder.header("X-USER-ID", userId);
