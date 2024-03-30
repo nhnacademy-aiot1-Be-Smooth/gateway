@@ -1,9 +1,6 @@
 package live.smoothing.gateway.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import live.smoothing.gateway.config.GlobalFilterProperties;
-import live.smoothing.gateway.jwt.util.JwtCode;
-import live.smoothing.gateway.jwt.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -17,9 +14,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtVerificationFilter implements GlobalFilter, Ordered {
+public class UserIdHeaderGlobalFilter implements GlobalFilter, Ordered {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final GlobalFilterProperties properties;
 
     @Override
@@ -30,34 +26,19 @@ public class JwtVerificationFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String accessToken = String.valueOf(exchange.getAttributes().getOrDefault("accessToken", null));
-        String refreshToken = String.valueOf(exchange.getAttributes().getOrDefault("refreshToken", null));
+        String userId = String.valueOf(exchange.getAttributes().get("userId"));
 
-        // TODO: exception 처리
-        try {
-            JwtCode jwtCode = jwtTokenProvider.validateToken(accessToken);
+        exchange.mutate().request(builder -> {
+            builder.header("X-USER-ID", userId);
+        });
 
-            if (jwtCode == JwtCode.INVALID) {
-                throw new RuntimeException();
-            }
-
-            String userId = jwtTokenProvider.getUserId(accessToken);
-
-            if (jwtCode == JwtCode.EXPIRED) {
-                throw new RuntimeException();
-            }
-
-            exchange.getAttributes().put("userId", userId);
-            return chain.filter(exchange);
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return chain.filter(exchange);
     }
 
     @Override
     public int getOrder() {
-        return 2;
+
+        return 3;
     }
 
     private boolean isExcludePath(String method, String path) {

@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.security.SignatureException;
+import live.smoothing.gateway.exception.NotFoundUserIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -28,7 +30,7 @@ public class JwtTokenProvider {
 
         // TODO : exception 처리
         if (Objects.isNull(id)) {
-            throw new RuntimeException();
+            throw new NotFoundUserIdException(HttpStatus.BAD_REQUEST, "Jwt 토큰 내에서 userId를 찾지 못했습니다.");
         }
 
         return id.asText();

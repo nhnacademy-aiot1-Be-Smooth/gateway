@@ -1,11 +1,14 @@
 package live.smoothing.gateway.filter;
 
 import live.smoothing.gateway.config.GlobalFilterProperties;
+import live.smoothing.gateway.exception.AuthorizationNotFoundException;
+import live.smoothing.gateway.exception.JwtTokenInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -16,7 +19,9 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserIdHeaderFilter implements GlobalFilter, Ordered {
+public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
+
+    private static final String TOKEN_TYPE = "Bearer";
 
     private final GlobalFilterProperties properties;
 
@@ -28,24 +33,25 @@ public class UserIdHeaderFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String userId = String.valueOf(exchange.getAttributes().getOrDefault("userId", null));
+        String accessTokenHeaderValue = exchange.getRequest().getHeaders().getFirst("smoothing-accessToken");
 
-        // TODO : exception 처리
-        if (Objects.isNull(userId)) {
-            throw new RuntimeException();
+        if (Objects.isNull(accessTokenHeaderValue)) {
+            throw new AuthorizationNotFoundException(HttpStatus.UNAUTHORIZED, "Access Token 헤더를 찾지 못했습니다.");
         }
 
-        exchange.mutate().request(builder -> {
-            builder.header("X-USER-ID", userId);
-        });
+        if (accessTokenHeaderValue.length() <= TOKEN_TYPE.length()) {
+            throw new JwtTokenInvalidException(HttpStatus.UNAUTHORIZED, "Access Token 값이 유효하지 않습니다.");
+        }
 
+        String accessToken = accessTokenHeaderValue.substring(TOKEN_TYPE.length()+1);
+        exchange.getAttributes().put("accessToken", accessToken);
         return chain.filter(exchange);
     }
 
     @Override
     public int getOrder() {
 
-        return 3;
+        return 1;
     }
 
     private boolean isExcludePath(String method, String path) {

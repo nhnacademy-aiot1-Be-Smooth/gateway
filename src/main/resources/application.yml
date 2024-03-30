@@ -2,7 +2,7 @@ server:
   port: 8081
 
 jwt:
-  secret: a692b00d-c4cd-481c-a0b0-732efc4eea28
+  secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28
 
 global:
   filter:
