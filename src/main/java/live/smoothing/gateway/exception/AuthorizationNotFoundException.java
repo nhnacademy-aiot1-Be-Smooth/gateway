@@ -1,10 +1,11 @@
 package live.smoothing.gateway.exception;
 
-public class AuthorizationNotFoundException extends RuntimeException {
+import live.smoothing.common.exception.CommonException;
+import org.springframework.http.HttpStatus;
 
-    public AuthorizationNotFoundException(String message) {
-
-        super(message + ": Authorization not found in header");
+public class AuthorizationNotFoundException extends CommonException {
+    public AuthorizationNotFoundException(HttpStatus status, String errorMessage) {
+        super(status, errorMessage);
     }
 }
 
