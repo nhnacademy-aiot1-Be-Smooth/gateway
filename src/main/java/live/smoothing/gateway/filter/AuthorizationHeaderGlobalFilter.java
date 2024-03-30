@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthorizationGlobalFilter implements GlobalFilter, Ordered {
+public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
 
     private final GlobalFilterProperties properties;
 
@@ -27,6 +28,8 @@ public class AuthorizationGlobalFilter implements GlobalFilter, Ordered {
         if (isExcludePath(request.getMethodValue(), request.getPath().value())) {
             return chain.filter(exchange);
         }
+
+        request.getHeaders().get(HttpHeaders.COOKIE);
 
         String accessToken = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("X-ACCESS-TOKEN"))
                 .map(token -> token.substring(7))

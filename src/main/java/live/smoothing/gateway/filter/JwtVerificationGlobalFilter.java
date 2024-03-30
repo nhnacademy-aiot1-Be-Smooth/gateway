@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtVerificationFilter implements GlobalFilter, Ordered {
+public class JwtVerificationGlobalFilter implements GlobalFilter, Ordered {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final GlobalFilterProperties properties;

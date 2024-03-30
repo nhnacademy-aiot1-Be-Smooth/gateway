@@ -16,7 +16,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserIdHeaderFilter implements GlobalFilter, Ordered {
+public class UserIdHeaderGlobalFilter implements GlobalFilter, Ordered {
 
     private final GlobalFilterProperties properties;
 
