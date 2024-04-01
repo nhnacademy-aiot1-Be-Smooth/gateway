@@ -16,6 +16,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
+/**
+ * Authorization 헤더를 검증하는 Global Filter
+ *
+ * @Author 신민석
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,6 +30,15 @@ public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
 
     private final GlobalFilterProperties properties;
 
+    /**
+     * Gateway Filter
+     *
+     * @param exchange ServerWebExchange
+     * @param chain GatewayFilterChain
+     * @return 헤더에 Access Token이 없을 경우 예외를 발생, Access Token이 존재할 경우 다음 필터로 이동
+     *
+     * @Author 신민석
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
@@ -48,12 +62,26 @@ public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange);
     }
 
+    /**
+     * Filter 의 동작순서를 1로 지정
+     *
+     * @Author 신민석
+     */
     @Override
     public int getOrder() {
 
         return 1;
     }
 
+    /**
+     * 제외 경로인지 확인
+     *
+     * @param method
+     * @param path
+     * @return
+     *
+     * @Author 신민석
+     */
     private boolean isExcludePath(String method, String path) {
 
         String excludePath = method + ":" + path;
