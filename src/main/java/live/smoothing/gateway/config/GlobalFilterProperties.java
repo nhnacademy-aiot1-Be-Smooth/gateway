@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Global Filter 들의 공통 속성 클래스
@@ -18,5 +18,5 @@ import java.util.List;
 @ConfigurationProperties("global.filter")
 public class GlobalFilterProperties {
 
-    private List<String> excludePath;
+    private Set<String> excludePath;
 }
