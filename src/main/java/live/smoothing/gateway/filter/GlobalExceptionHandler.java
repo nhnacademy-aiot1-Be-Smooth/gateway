@@ -15,12 +15,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+/**
+ * Global Filter 들의 전역 예외 핸들링 클래스
+ *
+ * @author 박영준
+ */
 @Component
 @RequiredArgsConstructor
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     private final ObjectMapper objectMapper;
 
+    /**
+     * 예외 타입에 따라 ErrorResponse를 생성하고 json으로 변환해 반환하는 메서드
+     *
+     * @param exchange 비동기 웹 요청과 응답을 모두 포함하는 객체
+     * @param ex Global Filter 에서 발생한 예외 타입 객체
+     * @return
+     */
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ErrorResponse errorResponse;
