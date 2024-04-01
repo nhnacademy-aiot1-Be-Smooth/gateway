@@ -17,7 +17,7 @@ public class RouteLocatorConfig {
                 )
                 .route("auth-service",
                         p->p.path("/api/auth/**").and()
-                        .uri("lb://SMOOTHING-AUTH"))
+                        .uri("lb://AUTH-SERVICE"))
                 .build();
     }
 }
