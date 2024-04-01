@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * Global Filter 들의 공통 속성 클래스
+ *
+ * @author 박영준
+ */
 @Getter
 @Setter
 @Configuration

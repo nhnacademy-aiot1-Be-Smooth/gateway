@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8001
 
 jwt:
   secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28
@@ -8,7 +8,7 @@ global:
   filter:
     exclude-path:
       - POST:/api/auth/login
-      - POST:/api/user
+      - POST:/api/user/signup
 
 spring:
   application:

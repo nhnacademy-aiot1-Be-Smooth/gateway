@@ -18,6 +18,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+/**
+ * Jwt 토큰 검증 클래스
+ *
+ * @author 박영준
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -26,6 +31,14 @@ public class JwtVerificationGlobalFilter implements GlobalFilter, Ordered {
     private final JwtTokenProvider jwtTokenProvider;
     private final GlobalFilterProperties properties;
 
+    /**
+     * Jwt 토큰의 유효성을 검증하고 유요한 토큰일 경우 사용자 ID를 추출하여 요청 속성에 저장한다.
+     * 토큰이 유효하지 않거나 예외가 발생하면 적절한 예외를 던진다.
+     *
+     * @param exchange 비동기 웹 요청과 응답을 모두 포함하는 객체
+     * @param chain 게이트웨이 필터 체인
+     * @return 필터 체인의 다음 필터로 이어지거나, 필터링이 완료된 후 최종 응답을 나타내는 Mono<Void> 객체
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 

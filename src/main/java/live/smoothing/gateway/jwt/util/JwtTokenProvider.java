@@ -16,6 +16,11 @@ import java.util.Base64;
 import java.util.Objects;
 
 
+/**
+ * Jwt 토큰과 관련된 유틸 클래스
+ *
+ * @author 박영준
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -23,6 +28,13 @@ public class JwtTokenProvider {
     private final ObjectMapper objectMapper;
     private final JwtParser jwtParser;
 
+    /**
+     * Jwt 토큰을 Base64로 decode 후 유저 아이디를 추출하는 메서드
+     *
+     * @param token 문자열로 되어 있는 Jwt 토큰
+     * @return 사용자 ID
+     * @throws JsonProcessingException Json 형식에 맞지 않으면 발생하는 예외
+     */
     public String getUserId(String token) throws JsonProcessingException {
         String[] chunks = token.split("\\.");
         String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
@@ -36,6 +48,12 @@ public class JwtTokenProvider {
         return id.asText();
     }
 
+    /**
+     * Jwt 토큰의 유효성을 검증하는 메서드
+     *
+     * @param token 문자열로 되어 있는 Jwt 토큰
+     * @return Jwt 검증 결과 상태
+     */
     public JwtCode validateToken(String token) {
         try {
             jwtParser.parseClaimsJws(token);
