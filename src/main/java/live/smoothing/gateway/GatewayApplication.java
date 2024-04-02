@@ -1,4 +1,4 @@
-package live.temp.gateway;
+package live.smoothing.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

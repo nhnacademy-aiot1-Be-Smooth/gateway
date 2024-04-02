@@ -1,4 +1,4 @@
-package live.temp.gateway;
+package live.smoothing.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
