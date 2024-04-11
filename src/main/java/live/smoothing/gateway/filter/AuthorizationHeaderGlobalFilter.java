@@ -47,7 +47,7 @@ public class AuthorizationHeaderGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String accessTokenHeaderValue = exchange.getRequest().getHeaders().getFirst("smoothing-accessToken");
+        String accessTokenHeaderValue = exchange.getRequest().getHeaders().getFirst("Authorization");
 
         if (Objects.isNull(accessTokenHeaderValue)) {
             throw new AuthorizationNotFoundException(HttpStatus.UNAUTHORIZED, "Access Token 헤더를 찾지 못했습니다.");
