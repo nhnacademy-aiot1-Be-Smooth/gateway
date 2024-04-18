@@ -9,6 +9,8 @@ global:
     exclude-path:
       - POST:/api/auth/login
       - POST:/api/user/signup
+      - POST:/api/auth/email
+      - DELETE:/api/auth/logout
 
 spring:
   application:
