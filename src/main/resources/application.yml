@@ -2,7 +2,7 @@ server:
   port: 8001
 
 jwt:
-  secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28
+  secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd
 
 global:
   filter:
@@ -10,7 +10,6 @@ global:
       - POST:/api/auth/login
       - POST:/api/user/signup
       - POST:/api/auth/email
-      - DELETE:/api/auth/logout
 
 spring:
   application:
