@@ -38,7 +38,7 @@ public class JwtTokenProvider {
     public String getUserId(String token) throws JsonProcessingException {
         String[] chunks = token.split("\\.");
         String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
-        JsonNode id = objectMapper.readTree(payload).findValue("id");
+        JsonNode id = objectMapper.readTree(payload).findValue("userId");
 
         // TODO : exception 처리
         if (Objects.isNull(id)) {
