@@ -28,7 +28,12 @@ public class RouteLocatorConfig {
                 )
                 .route("auth-service",
                         p->p.path("/api/auth/**").and()
-                        .uri("lb://AUTH-SERVICE"))
+                        .uri("lb://AUTH-SERVICE")
+                )
+                .route("sensor-data-service",
+                        p->p.path("/api/sensor/**").and()
+                        .uri("lb://SENSOR-DATA-SERVICE")
+                )
                 .build();
     }
 }
