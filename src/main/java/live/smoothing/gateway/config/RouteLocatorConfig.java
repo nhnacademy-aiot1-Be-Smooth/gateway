@@ -33,6 +33,9 @@ public class RouteLocatorConfig {
                 .route("sensor-data-service",
                         p->p.path("/api/sensor/**").and()
                         .uri("lb://SENSOR-DATA-SERVICE")
+                ).route("device-service",
+                        p->p.path("/api/device/**").and()
+                                .uri("lb://DEVICE-SERVICE")
                 )
                 .build();
     }
