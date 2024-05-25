@@ -2,13 +2,16 @@ server:
   port: 8001
 
 jwt:
-  secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28
+  secret: a0b0732efc4eea28a692b00dc4cd481ca0b0732efc4eea28a692b00dc4cd
 
 global:
   filter:
     exclude-path:
       - POST:/api/auth/login
       - POST:/api/user/signup
+      - POST:/api/auth/encode
+      - POST:/api/auth/email
+      - POST:/api/auth/email/verify
 
 spring:
   application:
