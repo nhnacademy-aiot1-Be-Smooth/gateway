@@ -12,6 +12,8 @@ global:
       - POST:/api/auth/encode
       - POST:/api/auth/email
       - POST:/api/auth/email/verify
+      - GET:/api/user/existUser
+      - GET:/api/user/userState
 
 spring:
   application:
