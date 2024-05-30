@@ -38,7 +38,11 @@ public class RouteLocatorConfig {
                                 .uri("lb://DEVICE-SERVICE")
                 ) .route("ai-service",
                         p->p.path("/api/ai/**").and()
-                                .uri("lb://AI-SERVICE"))
+                                .uri("lb://AI-SERVICE")
+                ).route("actuator-service",
+                        p->p.path("/api/actuator/**").and()
+                                .uri("lb://ACTUATOR-SERVICE")
+                )
                 .build();
     }
 }
