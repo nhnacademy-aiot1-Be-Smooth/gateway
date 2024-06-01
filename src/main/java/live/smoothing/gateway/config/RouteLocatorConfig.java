@@ -39,6 +39,9 @@ public class RouteLocatorConfig {
                 ) .route("ai-service",
                         p->p.path("/api/ai/**").and()
                                 .uri("lb://AI-SERVICE"))
+                .route("rule-engine",
+                        p->p.path("/api/ruleengine/**").and()
+                                .uri("lb://RULE-ENGINE"))
                 .build();
     }
 }
