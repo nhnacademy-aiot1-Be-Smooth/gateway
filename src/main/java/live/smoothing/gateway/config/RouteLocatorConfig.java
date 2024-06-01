@@ -24,15 +24,15 @@ public class RouteLocatorConfig {
         return builder.routes()
                 .route("user-service",
                         p->p.path("/api/user/**").and()
-                        .uri("lb://USER-SERVICE")
+                                .uri("lb://USER-SERVICE")
                 )
                 .route("auth-service",
                         p->p.path("/api/auth/**").and()
-                        .uri("lb://AUTH-SERVICE")
+                                .uri("lb://AUTH-SERVICE")
                 )
                 .route("sensor-data-service",
                         p->p.path("/api/sensor/**").and()
-                        .uri("lb://SENSOR-DATA-SERVICE")
+                                .uri("lb://SENSOR-DATA-SERVICE")
                 ).route("device-service",
                         p->p.path("/api/device/**").and()
                                 .uri("lb://DEVICE-SERVICE")
@@ -43,7 +43,6 @@ public class RouteLocatorConfig {
                         p->p.path("/api/actuator/**").and()
                                 .uri("lb://ACTUATOR-SERVICE")
                 )
-                                .uri("lb://AI-SERVICE"))
                 .route("rule-engine",
                         p->p.path("/api/ruleengine/**").and()
                                 .uri("lb://RULE-ENGINE"))
