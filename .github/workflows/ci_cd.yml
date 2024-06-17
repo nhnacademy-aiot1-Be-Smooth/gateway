@@ -57,4 +57,4 @@ jobs:
           else
             echo "No containers with 'gateway' found."
           fi
-          sudo docker run -d --name gateway-service --network=smoothing -p 8000:8000 --restart always gateway
+          sudo docker run -d --name gateway-service --network=smoothing --restart always gateway
